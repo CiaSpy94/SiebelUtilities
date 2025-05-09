@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siebel Utilities</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+           0;
+            background-color: #f0f2f5;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .container {
+            display: flex;
+            flex-grow: 1;
+            height: 690px;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #004080;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #cce6ff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #0059b3;
+            color: white;
+        }
+        .sidebar a.active {
+            background-color: #0059b3;
+            color: white;
+            transform: translateX(10px);
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .content.visible {
+            opacity: 1;
+        }
+        .welcome-message {
+            font-size: 24px;
+            color: #003366;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>Siebel Utilities</header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="#" id="welcomeTab" class="active" onclick="showWelcome(this)">Welcome</a>
+            <a href="#" id="gitTab" onclick="loadContent('Automation\GIT.html', this)">GIT</a>
+            <a href="#" id="pipelineTab" onclick="loadContent('Automation\logintest.html', this)">URLs</a>
+			<a href="#" id="ReleaseTab" onclick="loadContent('Automation\Releases.html', this)">Releases</a>
+        </div>
+        <div class="content visible" id="contentContainer">
+            <div id="welcomeMessage" class="welcome-message">Welcome to Siebel Utilities</div>
+            <iframe id="contentFrame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function showWelcome(element) {
+            var contentContainer = document.getElementById('contentContainer');
+            var welcomeMessage = document.getElementById('welcomeMessage');
+            var contentFrame = document.getElementById('contentFrame');
+            contentContainer.classList.remove('visible');
+            setTimeout(function() {
+                welcomeMessage.style.display = 'block';
+                contentFrame.style.display = 'none';
+                contentContainer.classList.add('visible');
+            }, 500);
+            var tabs = document.querySelectorAll('.sidebar a');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function loadContent(url, element) {
+            var contentContainer = document.getElementById('contentContainer');
+            var welcomeMessage = document.getElementById('welcomeMessage');
+            var contentFrame = document.getElementById('contentFrame');
+            contentContainer.classList.remove('visible');
+            setTimeout(function() {
+                welcomeMessage.style.display = 'none';
+                contentFrame.style.display = 'block';
+                document.getElementById('contentFrame').src = url;
+                contentContainer.classList.add('visible');
+            }, 500);
+            var tabs = document.querySelectorAll('.sidebar a');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
