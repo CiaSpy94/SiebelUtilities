@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Release Tiles with Copyable URLs</title>
+  <style>
+:root {
+  --primary-color: #e60000;
+  --accent-color: #ffffff;
+  --background-color: #f2f2f2;
+  --card-bg: #ffffff;
+  --text-color: #212121;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.tile-wrapper {
+  position: relative;
+}
+
+.tile {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary-color);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.info-box:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    z-index: 1;
+    border-style: solid;
+    border-color: #f2d3d3 transparent;
+    border-width: 0 22px 20px;
+    top: -20px;
+    left: 51%;
+    margin-left: -22px;
+}
+
+.tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.info-box {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 90%;
+  background-color: #e6c1c1;
+  border-radius: var(--border-radius);
+  padding: 12px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.tile-wrapper:hover .info-box {
+  display: block;
+}
+
+dialog {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  max-width: 86%;
+  width: 250px;
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.close-btn-nw{
+    left: 230px;
+	border: none;
+	cursor: pointer;
+    position: absolute;
+    background-color: white;
+    color: #5f5f5f;
+    font-size: 25px;
+}
+.close-btn:hover {
+  background-color: #c40000;
+}
+
+.copy-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+.copy-icon:hover {
+  color: #c40000;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Release Maping</h1>
+  <div class="grid-container" id="tiles-container"></div>  
+<dialog id="infoDialog"><button class="close-btn-nw" onclick="closeDialog()">X</button><div id="dialogContent"></div><div style="display: flex; justify-content: space-between; margin-top: 20px;"><button class="close-btn" onclick="showPrevious()">⬅ Previous</button><button class="close-btn" onclick="showNext()" style="width: 120px;">Next ➡</button></div></dialog>
+  <script>
+    const urlMap = {
+      "D1": "https://dev1.sbl.drcc.vodafone.com/siebel/app/callcenter/enu?",
+      "D2": "https://dev2.sbl.drcc.vodafone.com/siebel/app/callcenter/enu",
+      "D3": "https://dev3.sbl.drcc.vodafone.com/siebel/app/callcenter/enu",
+      "D4": "https://dev4.sbl.drcc.vodafone.com/siebel/app/callcenter/enu",
+      "C4": "https://c4.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/",
+      "E2": "https://e2.sbl.drcc.vodafone.com/siebel/app/callcenter/enu?",
+      "E4": "https://sblproxy-newvoe4-oidc.vodafone.com/siebel/app/callcenter/enu/?",
+      "E7": "https://e7.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/?",
+      "E8": "https://e8.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/",
+      "SUP02": "https://sblproxy-newcoc2-oidc.vodafone.com/siebel/app/callcenter/enu/?",
+      "DEVHA": "https://devha.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/?"
+    };
+
+    const releaseData = [
+      { release: "25.1", dev: "D1", st: "C4", sit: "SUP02" },
+      { release: "25.2A", dev: "D3", st: "E8", sit: "E7" },
+      { release: "25.3", dev: "D2", st: "E2", sit: "SUP02" },
+      { release: "25.4", dev: "D1", st: "C4", sit: "E4" },
+      { release: "25.5", dev: "D3", st: "E8", sit: "E7" },
+      { release: "25.6A", dev: "D2", st: "E2", sit: "SUP02" },
+      { release: "25.6B", dev: "D1", st: "C4", sit: "E4" },
+      { release: "25.7", dev: "D3", st: "E8", sit: "E7" },
+      { release: "25.8", dev: "D2", st: "E2", sit: "SUP02" },
+      { release: "25.9A", dev: "D1", st: "C4", sit: "E4" },
+      { release: "25.9B", dev: "D3", st: "E8", sit: "E7" },
+      { release: "25.1", dev: "D2", st: "E2", sit: "SUP02" },
+      { release: "25.11", dev: "D1", st: "C4", sit: "E4" },
+      { release: "25.12", dev: "D3", st: "E8", sit: "E7" }
+    ];
+
+    const container = document.getElementById("tiles-container");
+    const dialog = document.getElementById("infoDialog");
+    const dialogContent = document.getElementById("dialogContent");
+
+    function createCopyableRow(label, value) {
+      const url = urlMap[value];
+      return `<p><strong>${label}:</strong> ${value || "N/A"}${url ? `<span class="copy-icon" onclick="copyToClipboard('${url}')" title="Copy URL">📋</span>` : ""}</p>`;
+    }
+
+    releaseData.forEach((item, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "tile-wrapper";
+
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.textContent = item.release;
+      
+	tile.onclick = () => {
+	  renderDialog(index);
+	  dialog.showModal();
+	};
+
+      const info = document.createElement("div");
+      info.className = "info-box";
+      info.innerHTML = `<strong>DEV:</strong> ${item.dev || "N/A"}<br><strong>ST:</strong> ${item.st || "N/A"}<br><strong>SIT:</strong> ${item.sit || "N/A"}`;
+
+      wrapper.appendChild(tile);
+      wrapper.appendChild(info);
+      container.appendChild(wrapper);
+    });
+
+    function closeDialog() {
+      dialog.close();
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard:\n" + text);
+      }).catch(err => {
+        alert("Failed to copy: " + err);
+      });
+    }
+	
+let currentIndex = 0;
+
+function renderDialog(index) {
+  const item = releaseData[index];
+  currentIndex = index;
+  dialogContent.innerHTML = `<h2>Release ${item.release}</h2>${createCopyableRow("DEV", item.dev)}${createCopyableRow("ST", item.st)}${createCopyableRow("SIT", item.sit)}`;
+}
+
+function showPrevious() {
+  if (currentIndex > 0) {
+    renderDialog(currentIndex - 1);
+  }
+}
+
+function showNext() {
+  if (currentIndex < releaseData.length - 1) {
+    renderDialog(currentIndex + 1);
+  }
+}
+  </script>
+</body>
+</html>

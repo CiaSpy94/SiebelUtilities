@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment URLs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+           : 20px;
+           display: flex;
+           flex-direction: column;
+        }
+        .env-tile {
+            margin-bottom: 1rem;
+            border: 1px solid #007bff;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            width: 200px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .env-tile-header {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .env-tile-body {
+            display: none;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+        }
+        .env-tile.expanded .env-tile-body {
+            display: block;
+        }
+        .env-tile-body .name-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            /* width: 200px; */
+        }
+        .env-tile-body .name-item span {
+            font-size: 1rem;
+        }
+		.btn-sm{
+			margin-right: 5px !important;
+		}
+        .env-tile-body .name-item button {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script type="text/babel">
+        const data = [
+            { env: 'Dev', name: 'Dev 1', url: 'https://dev1.sbl.drcc.vodafone.com/siebel/app/callcenter/enu?' },
+            { env: 'Dev', name: 'Dev 2', url: 'https://dev2.sbl.drcc.vodafone.com/siebel/app/callcenter/enu' },
+            { env: 'Dev', name: 'Dev 3', url: 'https://dev3.sbl.drcc.vodafone.com/siebel/app/callcenter/enu' },
+            { env: 'Dev', name: 'Dev 4', url: 'https://dev4.sbl.drcc.vodafone.com/siebel/app/callcenter/enu' },
+            { env: 'Dev', name: 'Devha', url: 'https://devha.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/?' },
+            { env: 'SIT', name: 'E7', url: 'https://sblproxy-newvoe7-oidc.vodafone.com/siebel/app/callcenter/enu' },
+            { env: 'SIT', name: 'C2/SUP02', url: 'https://sblproxy-newcoc2-oidc.vodafone.com/siebel/app/callcenter/enu/?' },
+            { env: 'SIT', name: 'E4', url: 'https://sblproxy-newvoe4-oidc.vodafone.com/siebel/app/callcenter/enu/?' },
+            { env: 'SIT', name: 'E7', url: 'https://e7.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/?' },
+            { env: 'ST', name: 'E2', url: 'https://e2.sbl.drcc.vodafone.com/siebel/app/callcenter/enu?' },
+            { env: 'ST', name: 'C4', url: 'https://c4.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/' },
+            { env: 'ST', name: 'E8', url: 'https://e8.sbl.drcc.vodafone.com/siebel/app/callcenter/enu/' }
+        ];
+
+        const App = () => {
+            const handleCopy = (url) => {
+                navigator.clipboard.writeText(url);
+                alert('URL copied to clipboard!');
+            };
+
+            const handleOpen = (url) => {
+                window.open(url, '_blank');
+            };
+
+            const toggleTile = (env) => {
+                const tiles = document.querySelectorAll('.env-tile');
+                tiles.forEach(tile => {
+                    if (tile.id !== `tile-${env}`) {
+                        tile.classList.remove('expanded');
+                    }
+                });
+                const tile = document.getElementById(`tile-${env}`);
+                tile.classList.toggle('expanded');
+            };
+
+            const groupedData = data.reduce((acc, item) => {
+                if (!acc[item.env]) {
+                    acc[item.env] = [];
+                }
+                acc[item.env].push(item);
+                return acc;
+            }, {});
+
+            return (
+                <div className="container">
+                    {Object.keys(groupedData).map(env => (
+                        <div key={env} id={`tile-${env}`} className="env-tile">
+                            <div className="env-tile-header" onClick={() => toggleTile(env)}>
+                                {env}
+                            </div>
+                            <div className="env-tile-body">
+                                {groupedData[env].map(item => (
+                                    <div key={item.name} className="name-item">
+                                        <span>{item.name}</span>
+                                        <div>
+                                            <div className="btn btn-outline-primary btn-sm bi bi-clipboard" onClick={() => handleCopy(item.url)}>
+                                            </div>
+                                            <div className="btn btn-outline-secondary btn-sm bi bi-globe" onClick={() => handleOpen(item.url)}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

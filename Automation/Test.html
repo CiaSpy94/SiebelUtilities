@@ -1,0 +1,447 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<link rel="icon" class="bi bi-door-open" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+<title> Login Page </title>
+<style> 
+Body {
+  font-family: Calibri, Helvetica, sans-serif;
+  background-color: #ffffff;
+} 
+h1{
+  color: #ffffff;
+  text-shadow: 0 0 25px #1c94c4, 0 0 5px #1c94c4;
+ } 
+.bi{
+  color:#1c94c4;
+  margin-left: 20px;
+  margin-right: 23px;
+ }
+ .divclass{
+  margin-top: 10px;
+ }
+  input[type=text]{
+	color: #1c94c4;
+  }
+  input[type=password]
+  {
+	color: #1c94c4;
+  }
+ input[type=text], input[type=password] {
+        width: 100%;
+        margin: -8px 0;
+        padding: 5px 4px;
+        display: inline-block;
+        border: none;
+        background-color: #ffffff;
+    }
+ i:hover { 
+        opacity: 0.7; 
+    } 
+.userId{
+	color:#1c94c4;
+} 
+.container {
+	padding: 25px;
+	background-color: black;
+}
+
+ .panel {
+  display: none;
+}
+ .expdiv{
+      color: #ffffff;
+      background-color: #1c94c4;
+ }
+ .expColl{
+      width: 20px;
+      height: 20px;
+      background-color: #ffffff;
+      float: right;
+      margin-right: 0px;
+      color: #1c94c4;
+      border-radius: 39%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+ }
+ .env:hover,expColl:hover{
+  color: #fff !important;
+  background-color: #1c94c4bf !important;
+ }
+ .mar-0px{
+  margin-left: 0px;
+  margin-right: 0px;
+ }
+ .bi-globe:hover{
+  color: #0a26f5 !important;
+  background-color: #fff !important;
+ }
+ .highlight{
+  color: white !important;
+  background-color: #1c94c4 !important;
+ }
+ .box{
+  width: auto;
+  border: 2px solid #1c94c4;
+  padding: 4px;
+  margin: 5px;
+  color: #1c94c4;
+  display: -webkit-inline-box;
+}
+ .envMain{
+    border: 3px solid #1c94c4;
+    border-radius: 5px;
+    width: 45%;
+    padding: 3px;
+    margin-bottom: 5px;
+    box-shadow: 2px 3px 6px 0px lightblue;
+ }
+ .env{
+    background-color: #ffffff;
+    color: #1c94c4;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+    padding: 6px 6px;
+    word-spacing: 10px;
+    width: 97%;
+ }
+.fullControl{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+</style>
+<script src="jquery-3.7.0.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>  
+<body>  
+<center> <h1> Logins </h1> </center>
+<div class = "fullControl">
+<div id="GENMain" class = "envMain">
+<div class = "env" id="GEN" onclick="expCollFunction(id)">General<i id="GENdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="GENpanel" class= "panel">
+<div id="GEN1" class = "box">
+ <a id="GENURL1" href="https://jira-DEV.vodafone.co.uk/secure/BrowseProjects.jspa?selectedCategory=all" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">JIRA</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL1')"></i>
+</div>
+<div id="GEN2" class = "box">
+ <a id="GENURL2" href="https://ukit-confluence.vodafone.co.uk/dashboard.action#all-updates" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">Confluence</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL2')"></i>
+</div>
+<div id="GEN3" class = "box">
+ <a id="GENURL3" href="https://ukcc.caas-int.vodafone.com/logon/LogonPoint/tmindex.html" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">Citrix</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL3')"></i>
+</div>
+<div id="GEN4" class = "box">
+ <a id="GENURL4" href="http://10.78.192.88:9002/projects" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">Sonar</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL4')"></i>
+</div>
+ <div id="GEN5" class = "box">
+ <a id="GENURL5" href="https://dev.azure.com/vfuk-digital/VF%20UK%20IT-Test%20And%20Defect%20Management/_queries/folder/?path=Shared%20Queries/VOIS_DEV_TEAM" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">ADO</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL5')"></i>
+</div>
+<div id="GEN6" class = "box">
+ <a id="GENURL6" href="https://rva-ext.vodafone.com/sgd" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">DRCC</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL6')"></i>
+</div>
+<div id="GEN7" class = "box">
+ <a id="GENURL7" href="https://cloudmanager.vodafone.co.uk/home" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">AWS Cloud</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('GENURL7')"></i>
+</div>
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "GENId1"  value="abhinand.nj@vodafone.com" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('GENId1','User Id ')"></i></th>
+    <th><input type="password" value="ETAMeee001^^" name="password" id = "GENP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="GENt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('GENP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="GENCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('GENP1','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+<div id="SITMain" class = "envMain">
+<div class = "env" id="SIT" onclick="expCollFunction(id)">SIT<i id="SITdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="SITpanel" class= "panel">
+<div id="SIT1" class = "box">
+ <a id="SITURL1" href="https://newvoe7-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E7</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('SITURL1')"></i>
+</div>
+<div id="SIT2" class = "box">
+ <a id="SITURL2" href="https://newvoe4-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E4</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('SITURL2')"></i>
+</div>
+<div id="SIT3" class = "box">
+ <a id="SITURL3" href="https://newvosup02-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">SUP02</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('SITURL3')"></i>
+</div>
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "SITId1"  value="FUT_USER" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('SITId1','User Id ')"></i></th>
+    <th><input type="password" value="FUT_USER" name="password" id = "SITP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="SITt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('SITP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="SITCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('SITP1','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "SITId2" value="TEST_AGENT_NBA_03" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('SITId2','User Id ')"></i></th>
+    <th><input type="password" value="TEST_AGENT_NBA_03" name="password" id = "SITP2" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="SITt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('SITP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="SITCp2" onclick="copyFunction('SITP2','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+<div id="DEVMain" class = "envMain">
+<div class = "env" id="DEV" onclick="expCollFunction(id)">DEV<i id="DEVdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="DEVpanel" class= "panel">
+<div id="DEV1" class = "box">
+ <a id="DEVURL1" href="https://newcoc1-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">C1</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('DEVURL1')"></i>
+</div>
+<div id="DEV2" class = "box">
+ <a id="DEVURL2" href="https://newvoe5-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E5</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('DEVURL2')"></i>
+</div>
+<div id="DEV3" class = "box">
+ <a id="DEVURL3" href="https://newvoe1-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E1</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('DEVURL3')"></i>
+</div>
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "DEVId1"  value="abhinand.nj@vodafone.com" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('DEVId1','User Id ')"></i></th>
+    <th><input type="password" value="DEVpass1" name="password" id = "DEVP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="DEVt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('DEVP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="DEVCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('DEVP1','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "DEVId2" value="abhinand.nj@test.com" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('DEVId2','User Id ')"></i></th>
+    <th><input type="password" value="DEVpass2" name="password" id = "DEVP2" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="DEVt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('DEVP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="DEVCp2" onclick="copyFunction('DEVP2','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+<div id="STMain" class = "envMain">
+<div class = "env" id="ST" onclick="expCollFunction(id)">ST<i id="STdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="STpanel" class= "panel">
+<div id="ST1" class = "box">
+ <a id="STURL1" href="https://newvoe2-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E2</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('STURL1')"></i>
+</div>
+<div id="ST2" class = "box">
+ <a id="STURL2" href="https://newcoc4-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">C4</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('STURL2')"></i>
+</div>
+<div id="ST3" class = "box">
+ <a id="STURL3" href="https://newvoe8-crm01/callcenterOUI_enu/start.swe?" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">E8</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('STURL3')"></i>
+</div>
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "STId1"  value="abhinand.nj@vodafone.com" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('STId1','User Id ')"></i></th>
+    <th><input type="password" value="STpass1" name="password" id = "STP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="STt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('STP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="STCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('STP1','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "STId2" value="abhinand.nj@test.com" readonly></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('STId2','User Id ')"></i></th>
+    <th><input type="password" value="STpass2" name="password" id = "STP2" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="STt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('STP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="STCp2" onclick="copyFunction('STP2','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+<div id="OTHMain" class = "envMain">
+<div class = "env" id="OTH" onclick="expCollFunction(id)">Others<i id="OTHdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="OTHpanel" class= "panel">
+<div id="OTH1" class = "box">
+ <a id="OTHURL1" href="https://google.com" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">OTH1</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('OTHURL1')"></i>
+</div>
+<div id="OTH2" class = "box">
+ <a id="OTHURL2" href="https://landingpage.oitcloud.vodafone.com/" target="_blank" data-toggle="tooltip" data-placement="right" title="Open URL" class = "bi bi-globe mar-0px"></a>
+ <span style="margin-left: 10px;">OTH2</span>
+ <i data-toggle="tooltip" data-placement="right" title="Copy URL" style="margin-left: 10px;" class = "bi bi-clipboard mar-0px" onclick="copyURLFunction('OTHURL2')"></i>
+</div>
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "OTHId1"  value="abhinand.nj@NewVoe.local" readonly></th>
+    <th><i class="bi bi-clipboard" id = "OTHIdCP1" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('OTHId1','User Id ')"></i></th>
+    <th><input type="password" value="wX0pn$m1" name="password" id = "OTHP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="OTHt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('OTHP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="OTHCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('OTHP1','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "OTHId2" value="abhinand.nj@NewCoC.local" readonly></th>
+    <th><i class="bi bi-clipboard" id = "OTHIdCP2" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('OTHId2','User Id ')"></i></th>
+    <th><input id = "OTHP2" type="password" value='"06asNxb' name="password" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="OTHt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('OTHP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="OTHCp2" onclick="copyFunction('OTHP2','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+<div id="CREDSMain" class = "envMain">
+<div class = "env" id="CREDS" onclick="expCollFunction(id)">CREDS<i id="CREDSdiv" class="expColl bi bi-arrows-expand"></i></div>
+<div id="CREDSpanel" class= "panel">
+<table style="width:100%">
+<tr>
+    <th><input type="text" id = "CREDSId1"  value="abhinand.nj@NewVoe.local" readonly></th>
+    <th><i class="bi bi-clipboard" id = "CREDSIdCP1" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('CREDSId1','User Id ')"></i></th>
+    <th><input type="password" value="wX0pn$m1" name="password" id = "CREDSP1" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="CREDSt1" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('CREDSP1',id)"></i></th>
+    <th><i class="bi bi-clipboard" id="CREDSCp1" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" onclick="copyFunction('CREDSP1','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "CREDSId2" value="abhinand.nj@NewCoC.local" readonly></th>
+    <th><i class="bi bi-clipboard" id = "CREDSIdCP2" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('CREDSId2','User Id ')"></i></th>
+    <th><input id = "CREDSP2" type="password" value='"06asNxb' name="password" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="CREDSt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('CREDSP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="CREDSCp2" onclick="copyFunction('CREDSP2','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "CREDSId2" value="TEST_AGENT_NBA_03" readonly></th>
+    <th><i class="bi bi-clipboard" id = "CREDSIdCP2" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('CREDSId2','User Id ')"></i></th>
+    <th><input id = "CREDSP2" type="password" value='TEST_AGENT_NBA_03' name="password" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="CREDSt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('CREDSP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="CREDSCp2" onclick="copyFunction('CREDSP2','Password ')"></i></th>
+</tr>
+<tr>
+    <th><input type="text" id = "CREDSId2" value="DEVADMIN" readonly></th>
+    <th><i class="bi bi-clipboard" id = "CREDSIdCP2" data-toggle="tooltip" data-placement="right" title="Click to Copy UserName" onclick="copyFunction('CREDSId2','User Id ')"></i></th>
+    <th><input id = "CREDSP2" type="password" value='DEVADMIN' name="password" readonly></th> 
+    <th><i class="bi bi-eye-slash" id="CREDSt2" data-toggle="tooltip" data-placement="right" title="Show Password" onclick="toggleFunction('CREDSP2',id)"></i></th>
+    <th><i class="bi bi-clipboard" data-toggle="tooltip" data-placement="right" title="Click to Copy Password" id="CREDSCp2" onclick="copyFunction('CREDSP2','Password ')"></i></th>
+</tr>
+</table>
+</div>
+</div>
+ </div>
+<script>
+function toggleFunction(a,b) {
+  var aid = '#'+a;
+  var x = $(aid);
+  if (x.attr('type') === "password") {
+    x.get(0).type='text';
+	document.getElementById(b).classList.toggle("bi-eye");
+    document.getElementById(b).classList.remove("bi-eye-slash");
+  } else {
+    x.get(0).type= "password";
+   document.getElementById(b).classList.toggle("bi-eye-slash");
+   document.getElementById(b).classList.remove("bi-eye");
+  }
+}
+function expCollFunction(a) {
+  var aid = '#'+a+"panel";
+  var y = $('#'+a+"div");
+  var x = $(aid);
+  if(!(y.attr('class') === "expColl bi bi-arrows-collapse highlight"))
+  {
+    $(".bi-arrows-collapse").addClass("bi-arrows-expand").removeClass("bi-arrows-collapse");
+  }  
+  $(".highlight").removeClass("highlight");
+  if (y.attr('class') === "expColl bi bi-arrows-expand") {
+   $(".panel").hide();
+   x.slideDown();   
+   y.removeClass("bi-arrows-expand");
+   y.addClass("bi-arrows-collapse");
+   $('#'+a).addClass("highlight");
+   y.addClass("highlight");
+   $('#'+a).animate({height: 'auto', opacity: '0.4'}, "medium");
+   $('#'+a).animate({width: 'auto', opacity: '1'}, "medium");
+   x.show();
+  }
+  else{   
+   x.slideUp();
+   //x.hide();
+   y.addClass("bi-arrows-expand");
+   y.removeClass("bi-arrows-collapse");
+   $('#'+a).removeClass("highlight");
+   y.removeClass("highlight");
+  }   
+ }
+ 
+/*$(".envMain").click(function(){
+  var z = $(this).attr('id');
+  var a = z.replace('Main','');
+  var aid = '#'+a+"panel";
+  var y = $('#'+a+"div");
+  var x = $(aid);
+  if(!(y.attr('class') === "expColl bi bi-arrows-collapse highlight"))
+  {
+    $(".bi-arrows-collapse").addClass("bi-arrows-expand").removeClass("bi-arrows-collapse");
+  }  
+  $(".highlight").removeClass("highlight");
+  if (y.attr('class') === "expColl bi bi-arrows-expand") {
+   $(".panel").hide();
+   x.slideDown(500);   
+   y.removeClass("bi-arrows-expand");
+   y.addClass("bi-arrows-collapse");
+   $('#'+a).addClass("highlight");
+   y.addClass("highlight");
+   $('#'+a).animate({height: 'auto', opacity: '0.4'}, "medium");
+   $('#'+a).animate({width: 'auto', opacity: '1'}, "medium");
+   x.show();
+  }
+});*/
+ 
+/*$(".envMain").mouseleave(function(){
+  var z = $(this).attr('id');
+  var a = z.replace('Main','');
+  var aid = '#'+a+"panel";
+  var y = $('#'+a+"div");
+  var x = $(aid);
+  x.slideUp(500);
+	//x.hide();
+	y.addClass("bi-arrows-expand");
+	y.removeClass("bi-arrows-collapse");
+	$('#'+a).removeClass("highlight");
+	y.removeClass("highlight");
+});*/
+
+function copyFunction(a,b) {
+  var copyText = document.getElementById(a);
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(copyText.value);
+  alert(b+"Copied!");
+}
+function copyURLFunction(a) {
+  //var copyText = document.getElementById(a);
+  var url = $('#'+a).attr('href');
+  navigator.clipboard.writeText(url);
+  alert("URL Copied!");
+}
+</script>	
+</body>   
+</html>
