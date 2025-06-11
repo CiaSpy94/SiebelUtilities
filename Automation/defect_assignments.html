@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defect Assignments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .popup-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .popup-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .popup-buttons .button {
+            width: 48%;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .date-picker-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .date-picker-container input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .show-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .show-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Defect Assignments</h1>
+        <div class="date-picker-container">
+            <input type="date" id="datePicker">
+            <button class="show-button" onclick="showDefects()">Show</button>
+        </div>
+        <button class="button" onclick="openPopup1()">Add</button>
+        <div id="popup1" class="popup">
+            <div class="popup-header">Add Defects Assignments for Today</div>
+            <div class="table-container">
+                <table id="popup1Table">
+                    <thead>
+                        <tr>
+                            <th>Defect #</th>
+                            <th>Priority</th>
+                            <th>Test Level</th>
+                            <th>Release</th>
+                            <th>TCs Blocked</th>
+                            <th>Area</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <button class="button" onclick="openPopup2()">Add</button>
+            <div class="popup-buttons">
+                <button class="button" onclick="saveDefects()">Ok</button>
+                <button class="button" onclick="closePopup1()">Cancel</button>
+            </div>
+        </div>
+        <div id="popup2" class="popup">
+            <div class="popup-header">Add Defect Assignment</div>
+            <form id="popup2Form">
+                <label for="defectNumber">Defect #:</label>
+                <input type="text" id="defectNumber" name="defectNumber" required><br><br>
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" required>
+                    <option value="1-Urgent">1-Urgent</option>
+                    <option value="2-High">2-High</option>
+                    <option value="3-Medium">3-Medium</option>
+                    <option value="4-Low">4-Low</option>
+                </select><br><br>
+                <label for="testLevel">Test Level:</label>
+                <select id="testLevel" name="testLevel" required>
+                    <option value="ST">ST</option>
+                    <option value="SIT">SIT</option>
+                    <option value="UAT">UAT</option>
+                </select><br><br>
+                <label for="release">Release:</label>
+                <select id="release" name="release" required>
+                    <option value="25.1">25.1</option>
+                    <option value="25.2A">25.2A</option>
+                    <option value="25.2B">25.2B</option>
+                    <option value="25.3">25.3</option>
+                    <option value="25.4">25.4</option>
+                    <option value="25.5">25.5</option>
+                    <option value="25.6A">25.6A</option>
+                    <option value="25.6B">25.6B</option>
+                    <option value="25.7">25.7</option>
+                    <option value="25.8">25.8</option>
+                    <option value="25.9A">25.9A</option>
+                    <option value="25.9B">25.9B</option>
+                    <option value="25.10">25.10</option>
+                    <option value="25.11">25.11</option>
+                    <option value="25.12">25.12</option>
+                </select><br><br>
+                <label for="tcsBlocked">TCs Blocked:</label>
+                <input type="text" id="tcsBlocked" name="tcsBlocked" required><br><br>
+                <label for="area">Area:</label>
+                <input type="text" id="area" name="area" required><br><br>
+                <div class="popup-buttons">
+                    <button class="button" type="button" onclick="addDefect()">Ok</button>
+                    <button class="button" type="button" onclick="closePopup2()">Cancel</button>
+                </div>
+            </form>
+        </div>
+        <div id="defectsContainer"></div>
+    </div>
+    <script>
+        function openPopup1() {
+            document.getElementById('popup1').style.display = 'block';
+        }
+
+        function closePopup1() {
+            document.getElementById('popup1').style.display = 'none';
+        }
+
+        function openPopup2() {
+            document.getElementById('popup2').style.display = 'block';
+        }
+
+        function closePopup2() {
+            document.getElementById('popup2').style.display = 'none';
+        }
+
+        function addDefect() {
+            const defectNumber = document.getElementById('defectNumber').value;
+            const priority = document.getElementById('priority').value;
+            const testLevel = document.getElementById('testLevel').value;
+            const release = document.getElementById('release').value;
+            const tcsBlocked = document.getElementById('tcsBlocked').value;
+            const area = document.getElementById('area').value;
+
+            const table = document.getElementById('popup1Table').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            newRow.innerHTML = `
+                <td>${defectNumber}</td>
+                <td>${priority}</td>
+                <td>${testLevel}</td>
+                <td>${release}</td>
+                <td>${tcsBlocked}</td>
+                <td>${area}</td>
+                <td>
+                    <button class="button" onclick="editDefect(this)">Edit</button>
+                    <button class="button" onclick="deleteDefect(this)">Delete</button>
+                </td>
+            `;
+
+            closePopup2();
+        }
+
+        function editDefect(button) {
+            const row = button.parentElement.parentElement;
+            document.getElementById('defectNumber').value = row.cells[0].innerText;
+            document.getElementById('priority').value = row.cells[1].innerText;
+            document.getElementById('testLevel').value = row.cells[2].innerText;
+            document.getElementById('release').value = row.cells[3].innerText;
+            document.getElementById('tcsBlocked').value = row.cells[4].innerText;
+            document.getElementById('area').value = row.cells[5].innerText;
+
+            row.remove();
+            openPopup2();
+        }
+
+        function deleteDefect(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+
+        function saveDefects() {
+            const table = document.getElementById('popup1Table').getElementsByTagName('tbody')[0];
+            const rows = table.getElementsByTagName('tr');
+            const defects = [];
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const defect = {
+                    defectNumber: cells[0].innerText,
+                    priority: cells[1].innerText,
+                    testLevel: cells[2].innerText,
+                    release: cells[3].innerText,
+                    tcsBlocked: cells[4].innerText,
+                    area: cells[5].innerText
+                };
+                defects.push(defect);
+            }
+
+            const date = new Date().toISOString().split('T')[0];
+            const data = {
+                date: date,
+                defects: defects
+            };
+
+            fetch('/.netlify/functions/saveDefects', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                closePopup1();
+                loadDefects();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function loadDefects() {
+            const date = document.getElementById('datePicker').value || new Date().toISOString().split('T')[0];
+
+            fetch(`/.netlify/functions/loadDefects?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                const defectsContainer = document.getElementById('defectsContainer');
+                defectsContainer.innerHTML = '';
+
+                if (data.defects && data.defects.length > 0) {
+                    const table = document.createElement('table');
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Defect #</th>
+                                <th>Priority</th>
+                                <th>Test Level</th>
+                                <th>Release</th>
+                                <th>TCs Blocked</th>
+                                <th>Area</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    `;
+
+                    const tbody = table.getElementsByTagName('tbody')[0];
+
+                    data.defects.forEach(defect => {
+                        const row = tbody.insertRow();
+                        row.innerHTML = `
+                            <td>${defect.defectNumber}</td>
+                            <td>${defect.priority}</td>
+                            <td>${defect.testLevel}</td>
+                            <td>${defect.release}</td>
+                            <td>${defect.tcsBlocked}</td>
+                            <td>${defect.area}</td>
+                        `;
+                    });
+
+                    defectsContainer.appendChild(table);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function showDefects() {
+            loadDefects();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDefects();
+        });
+    </script>
+</body>
+</html>
