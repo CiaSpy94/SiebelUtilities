@@ -22,6 +22,13 @@
             text-align: center;
             width: 300px;
         }
+		.button-first-lvl-wdth {
+			width: 46%;
+		}
+		.button-first-lvl {
+			display: flex;
+			justify-content: space-between;
+		}
         h1 {
             color: #333;
         }
@@ -224,8 +231,10 @@
             <option value="25.11">25.11</option>
             <option value="25.12">25.12</option>
         </select>
-        <button onclick="copyToClipboard('switch', this)">Switch</button>
-        <button onclick="copyToClipboard('reset', this)">Reset</button>
+		<div class = "button-first-lvl">
+			<button class="button-first-lvl-wdth" onclick="copyToClipboard('switch', this)">Switch</button>
+			<button class="button-first-lvl-wdth" onclick="copyToClipboard('reset', this)">Reset</button>
+		</div>
 		<label for="modifiedby">Modified By</label>
 		<input type="text" id="modifiedby" name="modifiedby" placeholder="Developer Name">
         <label for="adoReference">ADO Reference:</label>
