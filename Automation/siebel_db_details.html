@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Siebel DB Details</title>  
+  <link rel="stylesheet" href="bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    input[type="password"], input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 130px;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .icon-btn {
+      font-size: 16px;
+      padding: 6px 8px;
+    }
+	
+	.toast {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: #2ecc71;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      padding: 12px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      font-size: 16px;
+    }
+
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @keyframes fadein {
+      from { bottom: 0; opacity: 0; }
+      to { bottom: 30px; opacity: 1; }
+    }
+
+    @keyframes fadeout {
+      from { bottom: 30px; opacity: 1; }
+      to { bottom: 0; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Siebel DB Details</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Host Name</th>
+        <th>Port</th>
+        <th>Service Name</th>
+        <th>Connection Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dev1 DRCC</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username1" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username1')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username1')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password1" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password1')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password1')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname1">10.166.13.14</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname1')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>Dev2 DRCC</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username2" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username2')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username2')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password2" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password2')"></button>
+            <button class="bi bi-clipboard" onclick="copyInput('password2')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname2">10.166.13.76</span>
+          <button class="bi bi-clipboard mar-0px" onclick="copyText('hostname2')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>Dev3 DRCC</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username3" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username3')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username3')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password3" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password3')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password3')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname3">10.166.13.217</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname3')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>Dev4 DRCC</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username4" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username4')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username4')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password4" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password4')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password4')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname4">10.166.13.226</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname4')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>DEVHA</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username5" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username5')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username5')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password5" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password5')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password5')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname5">86.104.216.232</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname5')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>SIT4</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username6" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username6')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username6')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password6" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password6')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password6')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname6">172.16.12.117</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname6')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>E4</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username7" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username7')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username7')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password7" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password7')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password7')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname7">86.104.217.86</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname7')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>C2/SUP02</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username8" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username8')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username8')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password8" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password8')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password8')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname8">86.104.217.87</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname8')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>E7</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username9" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username9')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username9')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password9" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password9')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password9')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname9">86.104.217.85</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname9')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>E8</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username10" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username10')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username10')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password10" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password10')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password10')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname10">10.166.13.179</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname10')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>E2</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username11" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username11')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username11')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password11" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password11')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password11')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname11">10.166.13.207</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname11')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+      <tr>
+        <td>C4</td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="username12" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('username12')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('username12')"></button>
+          </div>
+        </td>
+        <td>
+          <div class="input-group">
+            <input type="password" id="password12" value="Siebel" readonly>
+            <button class="bi bi-eye-slash" onclick="toggleVisibility('password12')"></button>
+            <button class="bi bi-clipboard mar-0px" onclick="copyInput('password12')"></button>
+          </div>
+        </td>
+        <td>
+          <span id="hostname12">10.166.13.145</span>
+          <button class="bi bi-clipboard" onclick="copyText('hostname12')"></button>
+        </td>
+        <td>1522</td>
+        <td>DEVCRM</td>
+        <td>Basic</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="toast" class="toast">Copied to clipboard!</div>
+
+<script>
+  function copyText(elementId) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById("toast");
+      toast.className = "toast show";
+      setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    });
+  }
+
+  function copyInput(inputId) {
+    const input = document.getElementById(inputId);
+    navigator.clipboard.writeText(input.value).then(() => {
+      const toast = document.getElementById("toast");
+      toast.className = "toast show";
+      setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    });
+  }
+
+  function toggleVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === "password" ? "text" : "password";
+  }
+</script>
+
+</body>
+</html>
