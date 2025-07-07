@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tile.className = "switch-tile";
         tile.textContent = switchName;
         tile.onclick = () => {
-          window.location.href = \`switch-details.html?name=\${encodeURIComponent(switchName)}\`;
+          window.location.href = `switch-details.html?name=\${encodeURIComponent(switchName)}`;
         };
         switchContainer.appendChild(tile);
       });
