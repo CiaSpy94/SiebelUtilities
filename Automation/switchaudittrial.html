@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audit Trail Table</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #444; padding: 10px; text-align: left; }
+    th { background-color: #f2f2f2; cursor: pointer; }
+    caption { font-size: 1.5em; margin-bottom: 10px; }
+    #popupForm { display: none; position: fixed; top: 20%; left: 35%; background-color: white; border: 2px solid #444; padding: 20px; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+    textarea { width: 100%; height: 60px; }
+    #searchInput { margin-top: 20px; padding: 8px; width: 300px; }
+    .pagination { margin-top: 10px; text-align: center; }
+    .pagination button { padding: 5px 10px; margin: 2px; cursor: pointer; }
+    #filterSelect { margin-left: 20px; padding: 8px; }
+  </style>
+</head>
+<body>
+
+  <button onclick="openForm()">Add Entry</button>
+  <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search in table...">
+  <select id="filterSelect" onchange="filterTable()">
+    <option value="">All Switch Modes</option>
+  </select>
+
+  <div id="overlay"></div>
+
+  <div id="popupForm">
+    <h3>Add Audit Entry</h3>
+    <form id="entryForm">
+      <label>Release: <input type="text" id="release" required></label><br><br>
+      <label>Switch Mode: <input type="text" id="mode" required></label><br><br>
+      <label>Switch Based On: <input type="text" id="basedOn" required></label><br><br>
+      <label>Switch: <input type="text" id="switch" required></label><br><br>
+      <label>Switch Access Control (Division\Resp):<br>
+        <textarea id="accessControl" required></textarea>
+      </label><br><br>
+      <button type="submit">Add</button>
+      <button type="button" onclick="closeForm()">Cancel</button>
+    </form>
+  </div>
+
+  <table id="auditTable">
+    <caption>Audit Trail</caption>
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">Release</th>
+        <th onclick="sortTable(1)">Switch Mode</th>
+        <th onclick="sortTable(2)">Switch Based On</th>
+        <th onclick="sortTable(3)">Switch</th>
+        <th onclick="sortTable(4)">Switch Access Control (Division\Resp)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    const BACKEND_URL = "https://siebelutilities.onrender.com";
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let allRows = [];
+
+    function openForm() {
+      document.getElementById('popupForm').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closeForm() {
+      document.getElementById('popupForm').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('entryForm').reset();
+    }
+
+    document.getElementById('entryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const newEntry = {
+        "Release": document.getElementById('release').value,
+        "Switch Mode": document.getElementById('mode').value,
+        "Switch Based On": document.getElementById('basedOn').value,
+        "Switch": document.getElementById('switch').value,
+        "Switch Access Control (Division\Resp)": document.getElementById('accessControl').value
+      };
+
+      const res = await fetch(`${BACKEND_URL}/api/switches`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry)
+      });
+
+      if (res.ok) {
+        allRows.push(newEntry);
+        updateFilterOptions();
+        updatePagination();
+        closeForm();
+      }
+    });
+
+    function searchTable() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allRows.filter(row =>
+        Object.values(row).some(val => val.toLowerCase().includes(input))
+      );
+      displayPage(filtered);
+    }
+
+    function filterTable() {
+      const selected = document.getElementById("filterSelect").value;
+      const filtered = selected ? allRows.filter(row => row["Switch Mode"] === selected) : allRows;
+      displayPage(filtered);
+    }
+
+    function sortTable(columnIndex) {
+      const keys = ["Release", "Switch Mode", "Switch Based On", "Switch", "Switch Access Control (Division\Resp)"];
+      const key = keys[columnIndex];
+      const isAsc = document.getElementById("auditTable").getAttribute("data-sort-dir") !== "asc";
+      allRows.sort((a, b) => isAsc ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]));
+      document.getElementById("auditTable").setAttribute("data-sort-dir", isAsc ? "asc" : "desc");
+      updatePagination();
+    }
+
+    function updatePagination() {
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+      const pageCount = Math.ceil(allRows.length / rowsPerPage);
+      for (let i = 1; i <= pageCount; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.onclick = () => { currentPage = i; displayPage(); };
+        if (i === currentPage) btn.style.fontWeight = "bold";
+        pagination.appendChild(btn);
+      }
+      displayPage();
+    }
+
+    function displayPage(data = allRows) {
+      const tbody = document.querySelector("#auditTable tbody");
+      tbody.innerHTML = "";
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      data.slice(start, end).forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row["Release"]}</td>
+          <td>${row["Switch Mode"]}</td>
+          <td>${row["Switch Based On"]}</td>
+          <td>${row["Switch"]}</td>
+          <td>${row["Switch Access Control (Division\Resp)"].replace(/\n/g, '<br>')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateFilterOptions() {
+      const select = document.getElementById("filterSelect");
+      const modes = [...new Set(allRows.map(row => row["Switch Mode"]))];
+      select.innerHTML = '<option value="">All Switch Modes</option>';
+      modes.forEach(mode => {
+        const opt = document.createElement("option");
+        opt.value = mode;
+        opt.textContent = mode;
+        select.appendChild(opt);
+      });
+    }
+
+    async function loadData() {
+      const res = await fetch(`${BACKEND_URL}/api/switches`);
+      allRows = await res.json();
+      updateFilterOptions();
+      updatePagination();
+    }
+
+    window.onload = loadData;
+  </script>
+
+</body>
+</html>
