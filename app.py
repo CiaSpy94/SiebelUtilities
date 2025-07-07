@@ -1,11 +1,10 @@
-
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
 import os
 
 app = Flask(__name__)
-CORS(app)  # This enables CORS for all routes
+CORS(app)  # This enables CORS for all routes
 
 DATA_FILE = 'switch.json'
 
