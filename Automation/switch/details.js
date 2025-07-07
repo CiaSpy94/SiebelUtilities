@@ -1,98 +1,54 @@
+import { database } from './firebase-config.js';
+import { ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-import { firebaseConfig } from './firebase-config.js';
+const switchName = localStorage.getItem('selectedSwitch');
+document.getElementById('switchHeader').innerText = switchName + ' details';
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const container = document.getElementById('releaseContainer');
+const modal = document.getElementById('editModal');
+let currentRelease = '';
 
-const urlParams = new URLSearchParams(window.location.search);
-const switchName = urlParams.get('switch');
-document.getElementById('switchHeader').innerText = switchName + " details";
-
-const tableBody = document.querySelector("#detailsTable tbody");
-const modal = document.getElementById("editModal");
-const releaseField = document.getElementById("releaseField");
-const modeField = document.getElementById("modeField");
-const basedOnField = document.getElementById("basedOnField");
-const accessControlField = document.getElementById("accessControlField");
-const modalTitle = document.getElementById("modalTitle");
-
-let currentEditRelease = null;
-
-function loadSwitchDetails() {
-  const switchRef = ref(db, 'switches/' + switchName);
-  get(switchRef).then(snapshot => {
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      tableBody.innerHTML = '';
-      for (const release in data) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td><b>${release}</b></td>
-          <td>${data[release].mode}</td>
-          <td>${data[release].basedOn}</td>
-          <td>${data[release].accessControl}</td>
-          <td><button onclick="editRelease('${release}')">Edit</button></td>
-        `;
-        tableBody.appendChild(row);
-      }
-    }
-  });
+function openEditModal(release, data) {
+  currentRelease = release;
+  document.getElementById('editMode').value = data.mode;
+  document.getElementById('editBasedOn').value = data.basedOn;
+  document.getElementById('editAccessControl').value = data.accessControl;
+  modal.style.display = 'block';
 }
+function closeEditModal() {
+  modal.style.display = 'none';
+}
+window.closeEditModal = closeEditModal;
 
-window.editRelease = function(release) {
-  currentEditRelease = release;
-  modalTitle.innerText = "Edit Switch";
-  releaseField.value = release;
-  releaseField.readOnly = true;
-  const switchRef = ref(db, 'switches/' + switchName + '/' + release);
-  get(switchRef).then(snapshot => {
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      modeField.value = data.mode;
-      basedOnField.value = data.basedOn;
-      accessControlField.value = data.accessControl;
-      modal.style.display = "block";
-    }
-  });
-};
+function saveEdit() {
+  const mode = document.getElementById('editMode').value;
+  const basedOn = document.getElementById('editBasedOn').value;
+  const accessControl = document.getElementById('editAccessControl').value;
 
-window.openAddModal = function() {
-  currentEditRelease = null;
-  modalTitle.innerText = "Add New Release";
-  releaseField.value = "";
-  releaseField.readOnly = false;
-  modeField.value = "RESTRICTED";
-  basedOnField.value = "Responsibility";
-  accessControlField.value = "";
-  modal.style.display = "block";
-};
-
-window.closeModal = function() {
-  modal.style.display = "none";
-};
-
-window.saveDetails = function() {
-  const release = releaseField.value.trim();
-  const mode = modeField.value;
-  const basedOn = basedOnField.value;
-  const accessControl = accessControlField.value.trim();
-
-  if (!release) {
-    alert("Release is required.");
-    return;
-  }
-
-  const switchRef = ref(db, 'switches/' + switchName + '/' + release);
-  set(switchRef, {
+  update(ref(database, 'switches/' + switchName + '/' + currentRelease), {
     mode,
     basedOn,
     accessControl
-  }).then(() => {
-    modal.style.display = "none";
-    loadSwitchDetails();
   });
-};
+  closeEditModal();
+}
+window.saveEdit = saveEdit;
 
-loadSwitchDetails();
+const switchRef = ref(database, 'switches/' + switchName);
+onValue(switchRef, (snapshot) => {
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    container.innerHTML = '';
+    for (const release in data) {
+      const div = document.createElement('div');
+      div.className = 'tile';
+      div.innerHTML = `<strong>${release}</strong><br>
+        Mode: ${data[release].mode}<br>
+        Based On: ${data[release].basedOn}<br>
+        Access Control: ${data[release].accessControl}<br>
+        <button onclick='openEditModal("${release}", ${JSON.stringify(data[release]).replace(/"/g, '&quot;')})'>Edit</button>`;
+      container.appendChild(div);
+    }
+  }
+});
+window.openEditModal = openEditModal;
