@@ -1,0 +1,19 @@
+{
+  "switches": {
+    "SwitchA": {
+      "mode": "ON",
+      "basedOn": "Responsibility",
+      "accessControl": "Admin, Manager, Developer"
+    },
+    "SwitchB": {
+      "mode": "RESTRICTED",
+      "basedOn": "Division",
+      "accessControl": "Finance, HR"
+    },
+    "SwitchC": {
+      "mode": "OFF",
+      "basedOn": "Responsibility",
+      "accessControl": "Support, QA"
+    }
+  }
+}
