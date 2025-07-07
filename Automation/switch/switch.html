@@ -8,9 +8,36 @@
 </head>
 <body>
   <h1>Halo Switches</h1>
-  <ul id="switchList"></ul>
+  <div id="switchContainer" class="tile-container"></div>
 
-  <!-- Firebase SDKs -->  
-<script type="module" src="index.js"></script>
+  <button id="addSwitchBtn">Add Switch</button>
+
+  <div id="switchPopup" class="popup hidden">
+    <div class="popup-content">
+      <h3>Add New Switch</h3>
+      <label>Switch Name:</label><br>
+      <input type="text" id="switchName"><br><br>
+
+      <label>Release:</label      <select id="mode">
+        <option>RESTRICTED</option>
+        <option>OFF</option>
+        <option>ON</option>
+      </select><br><br>
+
+      <label>Switch Based On:</label><br>
+      <select id="basedOn">
+        <option>Responsibility</option>
+        <option>Division</option>
+      </select><br><br>
+
+      <label>Switch Access Control Values:</label><br>
+      <textarea id="accessControl" rows="4" cols="30"></textarea><br><br>
+
+      <button id="confirmAddSwitch">Add</button>
+      <button id="cancelAddSwitch">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module" src="index.js"></script>
 </body>
 </html>
