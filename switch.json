@@ -4,20 +4,20 @@
         "Switch Mode": "Manual",
         "Switch Based On": "Time-based",
         "Switch": "Enabled",
-        "Switch Access Control (Division\\Resp)": "IT Division\\John Doe"
+        "Switch Access Control": "IT Division\\John Doe"
     },
     {
         "Release": "v1.1",
         "Switch Mode": "Automatic",
         "Switch Based On": "Event Trigger",
         "Switch": "Disabled",
-        "Switch Access Control (Division\\Resp)": "Ops Division\\Jane Smith"
+        "Switch Access Control": "Ops Division\\Jane Smith"
     },
     {
         "Release": "v2.0",
         "Switch Mode": "Manual",
         "Switch Based On": "User Input",
         "Switch": "Enabled",
-        "Switch Access Control (Division\\Resp)": "DevOps Division\\Alice Johnson"
+        "Switch Access Control": "DevOps Division\\Alice Johnson"
     }
 ]
