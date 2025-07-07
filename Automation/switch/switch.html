@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Halo Switches</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>Halo Switches</header>
+  <button onclick="openAddModal()">Add Switch</button>
+  <div class="container" id="switchContainer"></div>
+
+  <div class="modal" id="addModal">
+    <h3>Add New Switch</h3>
+    <input type="text" id="newSwitch" placeholder="Switch Name">
+    <input type="text" id="newRelease" placeholder="Release">
+    <select id="newMode">
+      <option>RESTRICTED</option>
+      <option>OFF</option>
+      <option>ON</option>
+    </select>
+    <select id="newBasedOn">
+      <option>Responsibility</option>
+      <option>Division</option>
+    </select>
+    <textarea id="newAccessControl" placeholder="Access Control"></textarea>
+    <button onclick="addSwitch()">Add</button>
+    <button onclick="closeAddModal()">Cancel</button>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

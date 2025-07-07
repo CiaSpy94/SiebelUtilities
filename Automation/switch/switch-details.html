@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Switch Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header id="switchHeader"></header>
+  <div class="container" id="releaseContainer"></div>
+  <div class="modal" id="editModal">
+    <h3>Edit Switch</h3>
+    <select id="editMode">
+      <option>RESTRICTED</option>
+      <option>OFF</option>
+      <option>ON</option>
+    </select>
+    <select id="editBasedOn">
+      <option>Responsibility</option>
+      <option>Division</option>
+    </select>
+    <textarea id="editAccessControl"></textarea>
+    <button onclick="saveEdit()">Save</button>
+    <button onclick="closeEditModal()">Cancel</button>
+  </div>
+  <script type="module" src="details.js"></script>
+</body>
+</html>
