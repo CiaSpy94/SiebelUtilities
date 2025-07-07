@@ -7,42 +7,32 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <button onclick="window.location.href='index.html'">← Back</button>
   <h1 id="switchHeader"></h1>
 
-  <label><strong>Release</strong></label><br><br>
+  <label>Release:</label><br>
+  <input type="text" id="release"><br><br>
 
-  <label for="mode">Switch Mode:</label>
+  <label>Switch Mode:</label><br>
   <select id="mode">
     <option>RESTRICTED</option>
     <option>OFF</option>
     <option>ON</option>
   </select><br><br>
 
-  <label for="basedOn">Switch Based On:</label>
+  <label>Switch Based On:</label><br>
   <select id="basedOn">
     <option>Responsibility</option>
     <option>Division</option>
   </select><br><br>
 
-  <label for="accessControl">Switch Access Control Values:</labelbr>
-  <textarea id="accessControl" rows="5" cols="40"></textarea><br><br>
+  <label>Switch Access Control Values:</label><br>
+  <textarea id="accessControl" rows="4" cols="30"></textarea><br><br>
 
-  <button id="addBtn">Add</button>
+  <button id="addReleaseBtn">Add Release</button>
 
-  <div id="popup" class="popup hidden">
-    <div class="popup-content">
-      <p>Confirm adding switch details?</p>
-      <button id="confirmAdd">Confirm</button>
-      <button id="cancelAdd">Cancel</button>
-    </div>
-  </div>
+  <div id="releaseData"></div>
 
-  <div id="existingData"></div>
-
-  <!-- Firebase SDKs -->
- 
-<script type="module" src="index.js"></script>
-
-  <script src="switch-details.js"></script>
+  <script type="module" src="switch-details.js"></script>
 </body>
 </html>

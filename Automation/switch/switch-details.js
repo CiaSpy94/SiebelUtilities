@@ -1,47 +1,52 @@
 import { db } from './firebase-config.js';
-import {
-  ref,
-  get,
-  set
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { ref, get, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const switchName = urlParams.get("name");
-  document.getElementById("switchHeader").textContent = `${switchName} Details`;
+const urlParams = new URLSearchParams(window.location.search);
+const switchName = urlParams.get("name");
+document.getElementById("switchHeader").textContent = `${switchName} Details`;
 
-  const addBtn = document.getElementById("addBtn");
-  const popup = document.getElementById("popup");
-  const confirmAdd = document.getElementById("confirmAdd");
-  const cancelAdd = document.getElementById("cancelAdd");
+const releaseInput = document.getElementById("release");
+const modeInput = document.getElementById("mode");
+const basedOnInput = document.getElementById("basedOn");
+const accessControlInput = document.getElementById("accessControl");
+const addReleaseBtn = document.getElementById("addReleaseBtn");
+const releaseData = document.getElementById("releaseData");
 
-  addBtn.onclick = () => popup.classList.remove("hidden");
-  cancelAdd.onclick = () => popup.classList.add("hidden");
+addReleaseBtn.onclick = async () => {
+  const release = releaseInput.value;
+  const mode = modeInput.value;
+  const basedOn = basedOnInput.value;
+  const accessControl = accessControlInput.value;
 
-  confirmAdd.onclick = async () => {
-    const mode = document.getElementById("mode").value;
-    const basedOn = document.getElementById("basedOn").value;
-    const accessControl = document.getElementById("accessControl").value;
+  if (!release) return;
 
-    const data = {
-      mode,
-      basedOn,
-      accessControl
-    };
-
-    await set(ref(db, `switches/${switchName}`), data);
-    popup.classList.add("hidden");
-    loadExistingData();
-  };
-
-  async function loadExistingData() {
-    const snapshot = await get(ref(db, `switches/${switchName}`));
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      const container = document.getElementById("existingData");
-      container.innerHTML = `<h3>Existing Data:</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
-    }
+  const releaseRef = ref(db, `switches/${switchName}/${release}`);
+  const snapshot = await get(releaseRef);
+  if (snapshot.exists()) {
+    alert("Release already exists.");
+    return;
   }
 
-  loadExistingData();
-});
+  await set(releaseRef, {
+    mode,
+    basedOn,
+    accessControl
+  });
+
+  loadReleases();
+};
+
+async function loadReleases() {
+  releaseData.innerHTML = "";
+  const snapshot = await get(ref(db, `switches/${switchName}`));
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    Object.keys(data).forEach(release => {
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${release}</strong><pre>${JSON.stringify(data[release], null, 2)}</pre>`;
+      releaseData.appendChild(div);
+    });
+  }
+}
+
+loadReleases();

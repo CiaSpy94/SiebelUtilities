@@ -3,16 +3,19 @@ body {
   padding: 20px;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.tile-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-li {
+.tile {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border: 1px solid #ccc;
+  width: 150px;
+  text-align: center;
   cursor: pointer;
-  margin: 10px 0;
-  color: blue;
-  text-decoration: underline;
 }
 
 .popup {
@@ -29,7 +32,6 @@ li {
   padding: 20px;
   margin: 100px auto;
   width: 300px;
-  text-align: center;
 }
 
 .hidden {
