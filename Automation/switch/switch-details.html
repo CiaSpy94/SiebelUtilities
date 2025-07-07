@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,23 +6,38 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header id="switchHeader"></header>
-  <div class="container" id="releaseContainer"></div>
+  <header id="switchHeader">Switch Details</header>
+  <button onclick="openAddModal()">Add</button>
+  <table id="detailsTable">
+    <thead>
+      <tr>
+        <th>Release</th>
+        <th>Mode</th>
+        <th>Based On</th>
+        <th>Access Control</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
   <div class="modal" id="editModal">
-    <h3>Edit Switch</h3>
-    <select id="editMode">
+    <h3 id="modalTitle">Edit Switch</h3>
+    <input type="text" id="releaseField" placeholder="Release" readonly>
+    <select id="modeField">
       <option>RESTRICTED</option>
       <option>OFF</option>
       <option>ON</option>
     </select>
-    <select id="editBasedOn">
+    <select id="basedOnField">
       <option>Responsibility</option>
       <option>Division</option>
     </select>
-    <textarea id="editAccessControl"></textarea>
-    <button onclick="saveEdit()">Save</button>
-    <button onclick="closeEditModal()">Cancel</button>
+    <textarea id="accessControlField" placeholder="Access Control"></textarea>
+    <button onclick="saveDetails()">Save</button>
+    <button onclick="closeModal()">Cancel</button>
   </div>
+
   <script type="module" src="details.js"></script>
 </body>
 </html>
