@@ -18,64 +18,10 @@ git push origin Release_CCSX23.6_A:refs/for/Release_CCSX23.6_A
 git commit -a -m "RELEASE:CCSX23.5|JIRA:RTB-11155|QC:xxxx|CR:xxx|INC:xxx|ACTION:Modified by Pratyush| DETAILS:Prod issue fix"
 git push origin 25.7:refs/for/25.7
 
+----------------------------------------------
 
-def get_current_branch(repo_path):
-    try:
-        output = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
-                                         cwd=repo_path, stderr=subprocess.STDOUT, text=True)
-        return output.strip()
-    except subprocess.CalledProcessError:
-        return "Unknown"
-
-current_branch_label = tk.Label(root, text="Current Branch: N/A", fg="#00ffcc", bg="#1e1e1e", font=("Segoe UI", 10, "bold"))
-current_branch_label.pack()
-
-
-def update_branches(*args):
-    repo = repo_var.get()
-    if repo:
-        repo_path = os.path.join(PARENT_DIR, repo)
-
-        # Update branches dropdown
-        branches = get_git_branches(repo_path)
-        branch_menu['values'] = branches
-        if branches:
-            branch_menu.set(branches[0])
-
-        # Show current branch
-        current = get_current_branch(repo_path)
-        current_branch_label.config(text=f"Current Branch: {current}")
-
-
-
--------------------------
-def update_current_branch_label():
-    repo = repo_var.get()
-    if repo:
-        repo_path = os.path.join(PARENT_DIR, repo)
-        current = get_current_branch(repo_path)
-        current_branch_label.config(text=f"Current Branch: {current}")
-    else:
-        current_branch_label.config(text="Current Branch: N/A")
-
-
--------------------
-repo_menu.bind("<<ComboboxSelected>>", lambda e: (
-    update_branches(),
-    update_current_branch_label()
-))
-
----------------------------------
-
-formatted_command = ' '.join(command)
-show_output(f"> {formatted_command}\n\n⏳ Loading...", success=True)
-root.update_idletasks()  # Force UI refresh
-
-try:
-    output = subprocess.check_output(formatted_command, cwd=repo_path, shell=True, stderr=subprocess.STDOUT, text=True)
-    show_output(f"> {formatted_command}\n\n{output}", success=True)
-except subprocess.CalledProcessError as e:
-    show_output(f"> {formatted_command}\n\n{e.output}", success=False)
-
-update_current_branch_label()
+from datetime import date
+today = date.today().strftime("%d %B %Y")
+copy_label = tk.Label(root, text=f"© {today} Abhinand's Git Dashboard. All rights reserved.", fg="#888", bg="#1e1e1e", font=("Segoe UI", 9))
+copy_label.pack(pady=(10, 5))
 
