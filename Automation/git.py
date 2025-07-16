@@ -39,8 +39,11 @@ def update_current_branch_label():
         repo_path = os.path.join(PARENT_DIR, repo)
         current = get_current_branch(repo_path)
         current_branch_label.config(text=f"Current Branch: {current}")
+        cleaned_branch = current.replace("SIEBELUPG_IP23.12_ONCCS_", "")
+        branch_var.set(cleaned_branch)
     else:
         current_branch_label.config(text="Current Branch: N/A")
+        branch_var.set("")
 
 # ---------- Command Execution ----------
 def run_git_command(cmd):
@@ -173,6 +176,9 @@ for label, cmd in actions:
 ttk.Label(root, text="Command Output").pack()
 output_box = tk.Text(root, height=20, bg="#111", fg="#0f0", insertbackground="white", font=("Consolas", 10))
 output_box.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+copy_label = tk.Label(root, text=f"© 2025 nja@vois Git Dashboard. All rights reserved.", fg="#888", bg="#1e1e1e", font=("Segoe UI", 9))
+copy_label.pack(pady=(10, 5))
 
 # ---------- Launch ----------
 repos = find_git_repos()
