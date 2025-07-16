@@ -64,3 +64,18 @@ repo_menu.bind("<<ComboboxSelected>>", lambda e: (
     update_branches(),
     update_current_branch_label()
 ))
+
+---------------------------------
+
+formatted_command = ' '.join(command)
+show_output(f"> {formatted_command}\n\n⏳ Loading...", success=True)
+root.update_idletasks()  # Force UI refresh
+
+try:
+    output = subprocess.check_output(formatted_command, cwd=repo_path, shell=True, stderr=subprocess.STDOUT, text=True)
+    show_output(f"> {formatted_command}\n\n{output}", success=True)
+except subprocess.CalledProcessError as e:
+    show_output(f"> {formatted_command}\n\n{e.output}", success=False)
+
+update_current_branch_label()
+
