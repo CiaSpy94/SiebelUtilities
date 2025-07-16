@@ -30,3 +30,18 @@ def get_current_branch(repo_path):
 current_branch_label = tk.Label(root, text="Current Branch: N/A", fg="#00ffcc", bg="#1e1e1e", font=("Segoe UI", 10, "bold"))
 current_branch_label.pack()
 
+
+def update_branches(*args):
+    repo = repo_var.get()
+    if repo:
+        repo_path = os.path.join(PARENT_DIR, repo)
+
+        # Update branches dropdown
+        branches = get_git_branches(repo_path)
+        branch_menu['values'] = branches
+        if branches:
+            branch_menu.set(branches[0])
+
+        # Show current branch
+        current = get_current_branch(repo_path)
+        current_branch_label.config(text=f"Current Branch: {current}")
