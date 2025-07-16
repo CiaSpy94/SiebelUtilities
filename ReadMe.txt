@@ -45,3 +45,22 @@ def update_branches(*args):
         # Show current branch
         current = get_current_branch(repo_path)
         current_branch_label.config(text=f"Current Branch: {current}")
+
+
+
+-------------------------
+def update_current_branch_label():
+    repo = repo_var.get()
+    if repo:
+        repo_path = os.path.join(PARENT_DIR, repo)
+        current = get_current_branch(repo_path)
+        current_branch_label.config(text=f"Current Branch: {current}")
+    else:
+        current_branch_label.config(text="Current Branch: N/A")
+
+
+-------------------
+repo_menu.bind("<<ComboboxSelected>>", lambda e: (
+    update_branches(),
+    update_current_branch_label()
+))
