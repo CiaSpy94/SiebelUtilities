@@ -10,7 +10,7 @@ PARENT_DIR = os.path.dirname(CURRENT_DIR)
 # ---------- UI Setup ----------
 root = tk.Tk()
 root.title("Git Actions Dashboard")
-root.geometry("900x740")
+root.geometry("900x700")
 root.configure(bg="#1e1e1e")
 
 style = ttk.Style()
@@ -47,36 +47,45 @@ def run_git_command(cmd):
     repo = repo_var.get()
     branch = branch_var.get().strip()
     ado_ref = ado_var.get().strip()
+    modified_by_val = modified_by.get().strip()
+    ado_num_val = ado_num.get().strip()
+    dq = '"'
     repo_path = os.path.join(PARENT_DIR, repo)
 
     if not repo:
-        show_popup("❗ Please select a repository.")
+        show_popup("Please select a repository.")
         return
 
-    need_branch = cmd in ["switch", "reset", "commit", "push"]
-    if need_branch and not branch:
-        show_popup("❗ Please enter or select a Git branch.")
+    if cmd in ["switch", "reset", "commit", "push"] and not branch:
+        show_popup("Please select or enter a branch name.")
+        return
+
+    confirm_msg = f"Confirm to run: {cmd} on branch {branch}" if branch else f"Confirm to run: {cmd}"
+    if not messagebox.askyesno("Confirm Action", confirm_msg):
         return
 
     if cmd == "switch":
-        command = ["git", "switch", branch]
+        command = ["git", "switch", f"SIEBELUPG_IP23.12_ONCCSX{branch}"]
     elif cmd == "reset":
-        command = ["git", "reset", "--hard", f"origin/{branch}", "&&", "git", "pull"]
+        command = ["git", "reset", "--hard", f"origin/SIEBELUPG_IP23.12_ONCCSX{branch} && git pull"]
     elif cmd == "pull":
         command = ["git", "pull"]
     elif cmd == "status":
         command = ["git", "status"]
     elif cmd == "add":
-        command = ["git", "add", "*"]
+        command = ["git", "add","*"]
     elif cmd == "commit":
         msg = commit_entry.get().strip()
         if not ado_ref:
             show_popup("❗ Please select an ADO Reference.")
             return
-        commit_msg = f"{ado_ref}:RELEASE:{branch} {msg}"
+        if ado_ref == 'CR':
+            commit_msg = f"{dq}RELEASE-SIEBELUPG_IP23.12_ONCCSX{branch}|JIRA:xxxx|QC:xxxx|CR:{ado_num_val}|INC:xxxxx|ACTION:Modified by {modified_by_val}|DETAILS: CR {ado_num_val} {msg}{dq}"
+        else:
+            commit_msg = f"{dq}RELEASE-SIEBELUPG_IP23.12_ONCCSX{branch}|JIRA:xxxx|QC:{ado_num_val}|CR:xxxxx|INC:xxxxx|ACTION:Modified by {modified_by_val}|DETAILS: BUG {ado_num_val} {msg}{dq}"
         command = ["git", "commit", "-a", "-m", commit_msg]
     elif cmd == "push":
-        command = ["git", "push", "origin", f"{branch}:{branch}"]
+        command = ["git", "push", "origin", f"SIEBELUPG_IP23.12_ONCCSX{branch}:refs/for/SIEBELUPG_IP23.12_ONCCSX{branch}"]
     else:
         return
 
@@ -84,12 +93,18 @@ def run_git_command(cmd):
     if not messagebox.askyesno("Confirm Action", confirm_msg):
         return
 
+    formatted_command = ' '.join(command)
+    show_output(f"> {formatted_command}\n\n⏳ Loading...", success=True)
+    root.update_idletasks()  # Force UI refresh
+
     try:
-        output = subprocess.check_output(" ".join(command), cwd=repo_path, shell=True, stderr=subprocess.STDOUT, text=True)
-        show_output(f"> {' '.join(command)}\n\n{output}", success=True)
-        update_current_branch_label()
+        output = subprocess.check_output(formatted_command, cwd=repo_path, shell=True, stderr=subprocess.STDOUT, text=True)
+        show_output(f"> {formatted_command}\n\n{output}", success=True)
     except subprocess.CalledProcessError as e:
-        show_output(f"> {' '.join(command)}\n\n{e.output}", success=False)
+        show_output(f"> {formatted_command}\n\n{e.output}", success=False)
+
+    update_current_branch_label()
+
 
 # ---------- Output Display ----------
 def show_output(text, success=True):
@@ -111,18 +126,25 @@ current_branch_label.pack()
 
 repo_menu.bind("<<ComboboxSelected>>", lambda e: update_current_branch_label())
 
-ttk.Label(root, text="Select or Enter Git Branch").pack()
+ttk.Label(root, text="Select Git Branch to perform Actions").pack()
 branch_var = tk.StringVar()
-branch_menu = ttk.Combobox(root, textvariable=branch_var, width=50)
-branch_menu['values'] = [f"25.{i}" for i in range(1, 13)]
+branch_menu = ttk.Combobox(root, textvariable=branch_var, values=["25.1", "25.2A", "25.2B", "25.3", "25.4", "25.5", "25.6A", "25.6B", "25.7", "25.8", "25.9A", "25.9B", "25.10", "25.11", "25.12"], width=50)
 branch_menu.pack()
-branch_menu.set("25.1")
+branch_menu.set("25.8")
+
+ttk.Label(root, text="Modified by").pack()
+modified_by = ttk.Entry(root, width=50)
+modified_by.pack()
 
 ttk.Label(root, text="ADO Reference").pack()
 ado_var = tk.StringVar()
-ado_menu = ttk.Combobox(root, textvariable=ado_var, values=["BUG", "CR"], width=20)
+ado_menu = ttk.Combobox(root, textvariable=ado_var, values=["BUG", "CR"], width=50)
 ado_menu.pack()
 ado_menu.set("BUG")
+
+ttk.Label(root, text="ADO Number").pack()
+ado_num = ttk.Entry(root, width=50)
+ado_num.pack()
 
 ttk.Label(root, text="Commit Message").pack()
 commit_entry = ttk.Entry(root, width=50)
@@ -139,7 +161,7 @@ actions = [
     ("Reset", "reset"),
     ("Git Pull", "pull"),
     ("Git Status", "status"),
-    ("Git Add *", "add"),
+    ("Git Add", "add"),
     ("Git Commit", "commit"),
     ("Git Push", "push")
 ]
@@ -159,5 +181,5 @@ if repos:
     repo_menu.set(repos[0])
     repo_var.set(repos[0])
     update_current_branch_label()
-
+    
 root.mainloop()
