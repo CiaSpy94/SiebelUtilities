@@ -39,7 +39,7 @@ def update_current_branch_label():
         repo_path = os.path.join(PARENT_DIR, repo)
         current = get_current_branch(repo_path)
         current_branch_label.config(text=f"Current Branch: {current}")
-        cleaned_branch = current.replace("SIEBELUPG_IP23.12_ONCCS_", "")
+        cleaned_branch = current.replace("SIEBELUPG_IP23.12_ONCCS", "")
         branch_var.set(cleaned_branch)
     else:
         current_branch_label.config(text="Current Branch: N/A")
