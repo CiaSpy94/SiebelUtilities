@@ -1,0 +1,7 @@
+{
+  "paths": [
+    "src/module1",
+    "src/module2",
+    "lib/utils"
+  ]
+}
