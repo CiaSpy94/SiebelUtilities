@@ -1,0 +1,4 @@
+ADO Reference,Release,Switch Name,Divisions,Value,Status
+ADO123,R1,BUS_CHANNEL_REPORT,Division1,ON,
+ADO124,R1,BUS_CHANNEL_REPORT,Division2,OFF,
+ADO125,R2,SwitchC,Division3,ON,
