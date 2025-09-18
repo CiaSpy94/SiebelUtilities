@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><SiebelMessage
+ MessageId="1-1KQ0DL"
+ IntObjectName="Switch IO"
+ MessageType="Integration Object"
+ IntObjectFormat="Siebel Hierarchical"
+><ListOfVfFutSwitchIo
+><VfFutSwitchBc
+><Active
+>Y</Active
+><Behaviour
+>Enable</Behaviour
+><BehaviourType
+>Inclusion</BehaviourType
+><Comments
+></Comments
+><EndDate
+></EndDate
+><IsChild
+></IsChild
+><IsMaster
+></IsMaster
+><MasterReference
+></MasterReference
+><ObjectName
+></ObjectName
+><ObjectType
+></ObjectType
+><Reference
+>BUS_CHANNEL_REPORT</Reference
+><StartDate
+></StartDate
+><Switch
+>OFF</Switch
+><ProductFamily
+>Mobile</ProductFamily
+><Release
+>25.1</Release
+><ListOfVfFutSwitchChildBc
+><VfFutSwitchChildBc
+><Active
+>Y</Active
+><Name
+>FUT</Name
+><Type
+>Division</Type
+></VfFutSwitchChildBc
+><VfFutSwitchChildBc
+><Active
+>Y</Active
+><Name
+>Pilot Division 1</Name
+><Type
+>Division</Type
+></VfFutSwitchChildBc
+></ListOfVfFutSwitchChildBc
+></VfFutSwitchBc
+></ListOfVfFutSwitchIo
+></SiebelMessage
+>
