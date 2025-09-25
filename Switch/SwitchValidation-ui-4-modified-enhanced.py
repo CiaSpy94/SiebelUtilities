@@ -53,6 +53,7 @@ PRIMARY_DARK = "#0284c7"
 GOOD = "#166534"
 GREEN = "#2EBD0F"
 BAD = "#b91c1c"
+POP = "#A8F09E"
 
 root.configure(bg=BG)
 
@@ -375,12 +376,13 @@ def on_branch_selected(event=None):
 
     warning_win = tk.Toplevel(root)
     warning_win.title("Warning")
-    warning_win.geometry("420x140")
+    warning_win.geometry("420x190")
     warning_win.grab_set()
     warning_win.transient(root)
 
     msg = ("This will perform a hard reset on the selected branch.\n"
-           "Please push the changes if anything is pending in the current branch.\n\n"
+           "Please push the changes if anything is pending\n"
+           "in the current branch.\n\n"
            "Do you want to proceed?")
     ttk.Label(warning_win, text=msg, foreground=BAD, wraplength=400, font=("Segoe UI", 10, "bold")).pack(padx=20, pady=(18, 10))
 
