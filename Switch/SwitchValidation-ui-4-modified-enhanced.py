@@ -364,9 +364,30 @@ def on_branch_selected(event=None):
     b = branch_var.get().strip()
     if not b:
         return
-    if not messagebox.askyesno("Confirm", f"Switch/reset/pull branch: {full_branch_name(b)}?"):
-        return
-    git_switch_reset_pull(b)
+
+    # Custom warning dialog
+    def proceed():
+        warning_win.destroy()
+        git_switch_reset_pull(b)
+
+    def cancel():
+        warning_win.destroy()
+
+    warning_win = tk.Toplevel(root)
+    warning_win.title("Warning")
+    warning_win.geometry("420x140")
+    warning_win.grab_set()
+    warning_win.transient(root)
+
+    msg = ("This will perform a hard reset on the selected branch.\n"
+           "Please push the changes if anything is pending in the current branch.\n\n"
+           "Do you want to proceed?")
+    ttk.Label(warning_win, text=msg, foreground=BAD, wraplength=400, font=("Segoe UI", 10, "bold")).pack(padx=20, pady=(18, 10))
+
+    btn_frame = ttk.Frame(warning_win)
+    btn_frame.pack(pady=(0, 16))
+    ttk.Button(btn_frame, text="Proceed", command=proceed).pack(side=tk.LEFT, padx=12)
+    ttk.Button(btn_frame, text="Cancel", command=cancel).pack(side=tk.LEFT, padx=12)
 
 def git_pull_current():
     repo_path = ensure_repo_selected()
@@ -1214,3 +1235,4 @@ root.geometry(f"{width}x{height}")
 
 # Main loop
 root.mainloop()
+
